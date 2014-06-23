@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class DeckOperation {
 
@@ -26,15 +27,32 @@ public class DeckOperation {
 		isShuffled = false;
 		return deck;
 	}
+
 	
 	/**
-	 * @description Method to shuffle the ArrayList
+	 * @description Implementing Fisher-Yates algorithm to shuffle the ArrayList
 	 * @param deck
 	 */
 	public void shuffleArray(ArrayList<Card> deck){
-		  Collections.shuffle(deck);
-		  isShuffled = true;
-		  System.out.println("Cards Shuffled!");
+		
+		try{
+			if(deck != null){
+			    Random rnd = new Random();
+			    for (int i = deck.size()-1; i > 0; i--)
+			    {
+			      int index = rnd.nextInt(i + 1);
+			  
+			      // Simple swap
+			      Card a = deck.get(index);
+			      deck.set(index, deck.get(i));
+			      deck.set(i, a);
+			 
+			    }
+			    System.out.println("Cards Shuffled!");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	  
 	/**
@@ -76,28 +94,36 @@ public class DeckOperation {
 	 
 		
 		//Validations.
-		if(deckOperation.isShuffled()){
-			System.out.println("is Shuffled!");
-			deckOperation.returnCard(deck).toString();
-		}else{
-			System.out.println("is NOT Shuffled!");
-			deckOperation.shuffleArray(deck);
+		try{
 			
-			while(deck.size() != 0){
-				Card cardReturned = new Card();
-				cardReturned = deckOperation.returnCard(deck);
-				System.out.println(cardReturned.toString());
-				System.out.println(deck.size());
-			}
+			if(deckOperation.isShuffled()){
+				System.out.println("is Shuffled!");
+				deckOperation.returnCard(deck).toString();
+			}else{
+				System.out.println("is NOT Shuffled!");
+				deckOperation.shuffleArray(deck);
+				
+				while(deck.size() != 0){
+					Card cardReturned = new Card();
+					cardReturned = deckOperation.returnCard(deck);
+					System.out.println(cardReturned.toString());
+					System.out.println(deck.size());
+				}
+				
+				//Uncomment the code below and run it to check the size validation on returnCard method.
+				
+				/* 
+				Card cardReturned2 = new Card();
+				cardReturned2 = deckOperation.returnCard(deck);	 
+				System.out.println(cardReturned2.toString());
+				System.out.println(deck.size()); */
+				
+		 }
 			
-			//Uncomment the code below and run it to check the size validation on returnCard method.
-			
-			/* 
-			Card cardReturned2 = new Card();
-			cardReturned2 = deckOperation.returnCard(deck);	 
-			System.out.println(cardReturned2.toString());
-			System.out.println(deck.size()); */
-			
-	 }
+		}catch(Exception e){
+			System.out.print("Error, please check the stack trace");
+			e.printStackTrace();
+		}
+
   }
 }
